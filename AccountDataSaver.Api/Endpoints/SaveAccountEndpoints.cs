@@ -18,24 +18,9 @@ public static class SaveAccountEndpoints
         // POST: api/userAccounts/add
         endpoints.MapPost("add", AddAccount); 
         
-        // POST: api/userAccounts/get
-        endpoints.MapPost("get", GetAccount);        
-        
-        // POST: api/userAccounts/getAll
-        endpoints.MapPost("getAll", GetAllAccounts);
-        
         return endpoints;
     }
     
-    public static async Task<IResult> GetAllAccounts(GetAllAccountsRequest request)
-    {
-        throw new NotImplementedException();
-    }
-    
-    public static async Task<IResult> GetAccount()
-    {
-        throw new NotImplementedException();
-    }
 
     public static async Task<IResult> AddAccount(AddAccountRequest request, IUserAccountService accountService,
         IMapper mapper, IPasswordHelper passwordHelper, HttpContext context)
