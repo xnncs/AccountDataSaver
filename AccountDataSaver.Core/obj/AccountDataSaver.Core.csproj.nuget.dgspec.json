@@ -47,6 +47,14 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[13.0.1, )"
+            },
+            "Identity": {
+              "target": "Package",
+              "version": "[1.0.3, )"
+            },
+            "Microsoft.Identity.Client": {
+              "target": "Package",
+              "version": "[4.61.0, )"
             }
           },
           "imports": [

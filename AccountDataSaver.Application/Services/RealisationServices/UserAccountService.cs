@@ -9,14 +9,12 @@ namespace AccountDataSaver.Application.Services.RealisationServices;
 
 public class UserAccountService : IUserAccountService
 {
-    public UserAccountService(IPasswordHelper passwordHelper, IUserAccountRepository accountRepository, IUserRepository userRepository)
+    public UserAccountService(IUserAccountRepository accountRepository, IUserRepository userRepository)
     {
-        _passwordHelper = passwordHelper;
         _accountRepository = accountRepository;
         _userRepository = userRepository;
     }
     
-    private readonly IPasswordHelper _passwordHelper;
     private readonly IUserAccountRepository _accountRepository;
     private readonly IUserRepository _userRepository;
     
@@ -47,5 +45,15 @@ public class UserAccountService : IUserAccountService
         );
 
         await _accountRepository.AddAsync(account);
+    }
+    
+    public async Task<UserAccountModel> GetByServiceUrlAsync(string authorLogin, string serviceUrl)
+    {
+        return _accountRepository.GetAccountByUrl(authorLogin, serviceUrl);
+    }
+
+    public async Task<IEnumerable<UserAccountModel>> GetAllAsync(string authorLogin)
+    {
+        return _accountRepository.GetAllAccounts(authorLogin);
     }
 }

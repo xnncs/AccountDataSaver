@@ -20,7 +20,7 @@ public class JwtProvider : IJwtProvider
     
     public string GenerateToken(UserModel user)
     {
-        Claim[] data =
+        Claim[] claims =
         {
             new Claim(nameof(user.Login), user.Login),
         };
@@ -33,13 +33,32 @@ public class JwtProvider : IJwtProvider
         DateTime timeExpires = DateTime.UtcNow.AddHours(_options.ExpiresHours);
         
         JwtSecurityToken token = new JwtSecurityToken(
-            claims: data,
+            claims: claims,
             signingCredentials: singingCredentials,
             expires: timeExpires
         );
 
-        string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
+        JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+        
+        string tokenValue = handler.WriteToken(token);
         return tokenValue;
     }
-    
+
+    public string GetLoginFromClaims(string jwtToken)
+    {
+        byte[] secretKeyBytes = Encoding.UTF8.GetBytes(_options.SecretKey);
+        
+        JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+        
+        TokenValidationParameters validations = new TokenValidationParameters()
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(secretKeyBytes),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+        ClaimsPrincipal claims = handler.ValidateToken(jwtToken, validations, out var tokenSecure);
+
+        return claims.FindFirst(x => x.Type == nameof(UserModel.Login))!.Value;
+    }
 }

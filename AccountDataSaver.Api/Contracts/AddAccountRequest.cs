@@ -16,7 +16,6 @@ public record AddAccountRequest
     //     Password = password;
     // }
     
-    public string AuthorLogin { get; set; }
     public string ServiceUrl { get; set; } 
     public string Description { get; set; }
     public string Login { get; set; }

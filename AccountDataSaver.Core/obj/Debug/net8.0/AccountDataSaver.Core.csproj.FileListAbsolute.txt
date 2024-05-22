@@ -10,3 +10,4 @@ D:\code\codes\AccountDataSaver\AccountDataSaver.Core\obj\Debug\net8.0\AccountDat
 D:\code\codes\AccountDataSaver\AccountDataSaver.Core\obj\Debug\net8.0\refint\AccountDataSaver.Core.dll
 D:\code\codes\AccountDataSaver\AccountDataSaver.Core\obj\Debug\net8.0\AccountDataSaver.Core.pdb
 D:\code\codes\AccountDataSaver\AccountDataSaver.Core\obj\Debug\net8.0\ref\AccountDataSaver.Core.dll
+D:\code\codes\AccountDataSaver\AccountDataSaver.Core\obj\Debug\net8.0\AccountDataSaver.Core.sourcelink.json

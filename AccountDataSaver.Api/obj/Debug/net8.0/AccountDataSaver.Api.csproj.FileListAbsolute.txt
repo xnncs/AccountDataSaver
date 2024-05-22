@@ -121,3 +121,6 @@ D:\code\codes\AccountDataSaver\AccountDataSaver.Api\obj\Debug\net8.0\refint\Acco
 D:\code\codes\AccountDataSaver\AccountDataSaver.Api\obj\Debug\net8.0\AccountDataSaver.Api.pdb
 D:\code\codes\AccountDataSaver\AccountDataSaver.Api\obj\Debug\net8.0\AccountDataSaver.Api.genruntimeconfig.cache
 D:\code\codes\AccountDataSaver\AccountDataSaver.Api\obj\Debug\net8.0\ref\AccountDataSaver.Api.dll
+D:\code\codes\AccountDataSaver\AccountDataSaver.Api\bin\Debug\net8.0\Identity.dll
+D:\code\codes\AccountDataSaver\AccountDataSaver.Api\bin\Debug\net8.0\Microsoft.Identity.Client.dll
+D:\code\codes\AccountDataSaver\AccountDataSaver.Api\obj\Debug\net8.0\AccountDataSaver.Api.sourcelink.json

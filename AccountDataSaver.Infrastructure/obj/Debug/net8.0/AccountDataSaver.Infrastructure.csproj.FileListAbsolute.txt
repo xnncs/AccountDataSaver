@@ -13,3 +13,4 @@ D:\code\codes\AccountDataSaver\AccountDataSaver.Infrastructure\obj\Debug\net8.0\
 D:\code\codes\AccountDataSaver\AccountDataSaver.Infrastructure\obj\Debug\net8.0\refint\AccountDataSaver.Infrastructure.dll
 D:\code\codes\AccountDataSaver\AccountDataSaver.Infrastructure\obj\Debug\net8.0\AccountDataSaver.Infrastructure.pdb
 D:\code\codes\AccountDataSaver\AccountDataSaver.Infrastructure\obj\Debug\net8.0\ref\AccountDataSaver.Infrastructure.dll
+D:\code\codes\AccountDataSaver\AccountDataSaver.Infrastructure\obj\Debug\net8.0\AccountDataSaver.Infrastructure.sourcelink.json

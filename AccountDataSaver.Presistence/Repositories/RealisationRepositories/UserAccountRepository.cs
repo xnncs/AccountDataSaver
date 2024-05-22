@@ -51,4 +51,27 @@ public class UserAccountRepository : IUserAccountRepository
                 x.Password == password &&
                 x.ServiceUrl == serviceUrl);
     }
+
+    public IQueryable<UserAccountModel> GetAllAccounts(string authorLogin)
+    {
+        UserEntity author = _dbContext.Users.FirstOrDefault(x => x.Login == authorLogin)
+                            ?? throw new Exception("No authors with such login");
+
+        IQueryable<UserAccountEntity> accountsEntities = _dbContext.UserAccounts.Where(x => x.AuthorId == author.Id);
+
+        // mapping every element of accountsEntities from entity to model
+        return accountsEntities.Select(x => _mapper.Map<UserAccountEntity, UserAccountModel>(x));
+    }
+
+    public UserAccountModel GetAccountByUrl(string authorLogin, string serviceUrl)
+    {
+        UserEntity author = _dbContext.Users.FirstOrDefault(x => x.Login == authorLogin)
+                            ?? throw new Exception("no such authors with such login");
+
+        IQueryable<UserAccountEntity> accountsEntities = _dbContext.UserAccounts.Where(x => x.AuthorId == author.Id);
+        UserAccountEntity account = accountsEntities.FirstOrDefault(x => x.ServiceUrl == serviceUrl)
+                                    ?? throw new Exception("that author does not have any services with that url");
+
+        return _mapper.Map<UserAccountEntity, UserAccountModel>(account);
+    }
 }

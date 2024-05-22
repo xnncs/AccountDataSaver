@@ -15,3 +15,4 @@ D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\ref
 D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.pdb
 D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.genruntimeconfig.cache
 D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\ref\AccountDataSaver.Presistence.dll
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.sourcelink.json
