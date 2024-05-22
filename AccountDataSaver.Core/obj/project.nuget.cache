@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "mHShNugw+/Yfma4gZImGG9FSBxP7cU/95MXkIxtsEqZpKbIHA31WxnocWhU4slnFvyFtcB5ko3N6Au0f/JYAiw==",
+  "success": true,
+  "projectFilePath": "D:\\code\\codes\\AccountDataSaver\\AccountDataSaver.Core\\AccountDataSaver.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\anyon\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
+    "C:\\Users\\anyon\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\anyon\\.nuget\\packages\\microsoft.extensions.options\\6.0.0\\microsoft.extensions.options.6.0.0.nupkg.sha512",
+    "C:\\Users\\anyon\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "C:\\Users\\anyon\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

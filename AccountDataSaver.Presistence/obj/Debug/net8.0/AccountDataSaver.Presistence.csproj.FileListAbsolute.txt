@@ -1,0 +1,17 @@
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\bin\Debug\net8.0\AccountDataSaver.Presistence.deps.json
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\bin\Debug\net8.0\AccountDataSaver.Presistence.runtimeconfig.json
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\bin\Debug\net8.0\AccountDataSaver.Presistence.dll
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\bin\Debug\net8.0\AccountDataSaver.Presistence.pdb
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\bin\Debug\net8.0\AccountDataSaver.Core.dll
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\bin\Debug\net8.0\AccountDataSaver.Core.pdb
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.csproj.AssemblyReference.cache
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.GeneratedMSBuildEditorConfig.editorconfig
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.AssemblyInfoInputs.cache
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.AssemblyInfo.cs
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.csproj.CoreCompileInputs.cache
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.csproj.CopyComplete
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.dll
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\refint\AccountDataSaver.Presistence.dll
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.pdb
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\AccountDataSaver.Presistence.genruntimeconfig.cache
+D:\code\codes\AccountDataSaver\AccountDataSaver.Presistence\obj\Debug\net8.0\ref\AccountDataSaver.Presistence.dll
