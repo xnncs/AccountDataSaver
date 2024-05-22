@@ -31,9 +31,10 @@ public static class SaveAccountEndpoints
     }
     
     public static async Task<IResult> GetAllAccounts(IUserAccountService accountService,
-        IMapper mapper, HttpContext context, IJwtProvider jwtProvider, ILogger<UserAccountService> logger)
+        IMapper mapper, HttpContext context, IJwtProvider jwtProvider, ILogger<UserAccountService> logger,
+        IUserService userService)
     {
-        string authorLogin = GetLoginFromJwt(context, jwtProvider);
+        string authorLogin = userService.GetLoginFromJwt(context, jwtProvider);
 
         try
         {
@@ -48,11 +49,12 @@ public static class SaveAccountEndpoints
     }
     
     public static async Task<IResult> GetAccount(GetAccountRequest request, IUserAccountService accountService,
-        IMapper mapper, HttpContext context, IJwtProvider jwtProvider, ILogger<UserAccountService> logger)
+        IMapper mapper, HttpContext context, IJwtProvider jwtProvider, ILogger<UserAccountService> logger,
+        IUserService userService)
     {
         GetAccountRequestModel contract = mapper.Map<GetAccountRequest, GetAccountRequestModel>(request);
 
-        string authorLogin = GetLoginFromJwt(context, jwtProvider);
+        string authorLogin = userService.GetLoginFromJwt(context, jwtProvider);
 
         try
         {
@@ -67,12 +69,13 @@ public static class SaveAccountEndpoints
     }
 
     public static async Task<IResult> AddAccount(AddAccountRequest request, IUserAccountService accountService,
-        IMapper mapper, IPasswordHelper passwordHelper, HttpContext context, IJwtProvider jwtProvider)
+        IMapper mapper, IPasswordHelper passwordHelper, HttpContext context, IJwtProvider jwtProvider,
+        IUserService userService)
     {
         AddAccountRequestModel contract = mapper.Map<AddAccountRequest, AddAccountRequestModel>(request);
 
         contract.Password = GetPassword(request, passwordHelper);
-        contract.AuthorLogin = GetLoginFromJwt(context, jwtProvider);
+        contract.AuthorLogin = userService.GetLoginFromJwt(context, jwtProvider);
         
         try
         {
@@ -94,14 +97,5 @@ public static class SaveAccountEndpoints
         return randomPasswordOptions.ToGenerateRandomPassword
             ? passwordHelper.GenerateRandomPassword(randomPasswordOptions)
             : request.Password;
-    }
-    
-    // gets jwt token from cookies and decodes it with IJwtProvider
-    private static string GetLoginFromJwt(HttpContext context, IJwtProvider jwtProvider)
-    {
-        string jwtTokenFromCookies = context.Request.Cookies["tasty-cookies"]
-                                     ?? throw new AuthenticationException("Jwt token didnt set in cookies");
-
-        return jwtProvider.GetLoginFromClaims(jwtTokenFromCookies);
     }
 }

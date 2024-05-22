@@ -1,8 +1,10 @@
+using System.Security.Authentication;
 using AccountDataSaver.Application.Contracts;
 using AccountDataSaver.Application.Services.AbstractServices;
 using AccountDataSaver.Core.Models;
 using AccountDataSaver.Infrastructure.Abstract;
 using AccountDataSaver.Presistence.Repositories.AbstractRepositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace AccountDataSaver.Application.Services.RealisationServices;
@@ -49,5 +51,14 @@ public class UserService : IUserService
             
         string token = _jwtProvider.GenerateToken(userModel);
         return token;
+    }
+
+    // gets jwt token from cookies and decodes it with IJwtProvider
+    public string GetLoginFromJwt(HttpContext context, IJwtProvider jwtProvider)
+    {
+        string jwtTokenFromCookies = context.Request.Cookies["tasty-cookies"]
+                                     ?? throw new AuthenticationException("Jwt token didnt set in cookies");
+
+        return jwtProvider.GetLoginFromClaims(jwtTokenFromCookies);
     }
 }
