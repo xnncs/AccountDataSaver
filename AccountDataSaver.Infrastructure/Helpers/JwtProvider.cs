@@ -41,9 +41,5 @@ public class JwtProvider : IJwtProvider
         string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
         return tokenValue;
     }
-
-    public string DecodeToken(string token)
-    {
-        
-    }
+    
 }

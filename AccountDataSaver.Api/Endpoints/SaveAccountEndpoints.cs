@@ -45,11 +45,4 @@ public static class SaveAccountEndpoints
 
         return TypedResults.Ok();
     }
-
-    private static string? getAuthorLogin(HttpContext context)
-    {
-        string? cookieJwtToken = context.Request.Cookies["tasty-cookies"];
-        
-        
-    }
 }
