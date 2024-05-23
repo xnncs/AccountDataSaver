@@ -17,7 +17,19 @@ public class UserAccountService : IUserAccountService
     
     private readonly IUserAccountRepository _accountRepository;
     private readonly IUserRepository _userRepository;
-    
+
+
+    public async Task UpdateByIdAsync(UpdateAccountRequestModel request)
+    {
+        string authorLogin = _accountRepository.GetAuthorLoginByAccountId(request.AccountId);
+        if (authorLogin != request.RequestUserLogin)
+        {
+            throw new Exception(
+                "you have no permissions to change that account because you are not that account author");
+        }
+
+        await _accountRepository.UpdateAsync(request.AccountId, request.Data);
+    }
     
     public async Task AddAsync(AddAccountRequestModel request)
     {
@@ -47,12 +59,7 @@ public class UserAccountService : IUserAccountService
         await _accountRepository.AddAsync(account);
     }
     
-    public async Task<UserAccountModel> GetByServiceUrlAsync(string authorLogin, string serviceUrl)
-    {
-        return _accountRepository.GetAccountByUrl(authorLogin, serviceUrl);
-    }
-
-    public async Task<IEnumerable<UserAccountModel>> GetAllAsync(string authorLogin)
+    public async Task<IQueryable<UserAccountModel>> GetAllAsync(string authorLogin)
     {
         return _accountRepository.GetAllAccounts(authorLogin);
     }

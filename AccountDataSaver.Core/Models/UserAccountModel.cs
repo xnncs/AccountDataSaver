@@ -14,6 +14,7 @@ public record UserAccountModel
         };
     }
     
+    public int Id { get; set; }
     public string ServiceUrl { get; set; }
     public string Description { get; set; }
     public string Login { get; set; }

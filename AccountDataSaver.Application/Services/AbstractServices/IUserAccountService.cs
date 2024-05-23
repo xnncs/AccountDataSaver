@@ -7,6 +7,6 @@ namespace AccountDataSaver.Application.Services.AbstractServices;
 public interface IUserAccountService
 {
     Task AddAsync(AddAccountRequestModel requestModel);
-    Task<IEnumerable<UserAccountModel>> GetAllAsync(string authorLogin);
-    Task<UserAccountModel>? GetByServiceUrlAsync(string authorLogin, string serviceUrl);
+    Task<IQueryable<UserAccountModel>> GetAllAsync(string authorLogin);
+    Task UpdateByIdAsync(UpdateAccountRequestModel request);
 }

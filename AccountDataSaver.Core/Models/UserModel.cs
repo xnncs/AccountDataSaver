@@ -11,6 +11,7 @@ public record UserModel
             Name = name
         };
     }
+    
     #region AuthProperties
     
     public string Login { get; set; }

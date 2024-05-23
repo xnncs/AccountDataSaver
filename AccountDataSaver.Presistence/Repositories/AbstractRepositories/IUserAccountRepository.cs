@@ -7,5 +7,6 @@ public interface IUserAccountRepository
     Task AddAsync(UserAccountModel user);
     bool Contains(string serviceUrl, string login, string password);
     IQueryable<UserAccountModel> GetAllAccounts(string authorLogin);
-    UserAccountModel GetAccountByUrl(string authorLogin, string serviceUrl);
+    Task UpdateAsync(int accountId, UserAccountModel model);
+    string GetAuthorLoginByAccountId(int id);
 }

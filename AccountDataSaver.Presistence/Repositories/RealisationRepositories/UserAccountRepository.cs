@@ -55,7 +55,7 @@ public class UserAccountRepository : IUserAccountRepository
     public IQueryable<UserAccountModel> GetAllAccounts(string authorLogin)
     {
         UserEntity author = _dbContext.Users.FirstOrDefault(x => x.Login == authorLogin)
-                            ?? throw new Exception("No authors with such login");
+                            ?? throw new Exception("no authors with such login");
 
         IQueryable<UserAccountEntity> accountsEntities = _dbContext.UserAccounts.Where(x => x.AuthorId == author.Id);
 
@@ -63,15 +63,40 @@ public class UserAccountRepository : IUserAccountRepository
         return accountsEntities.Select(x => _mapper.Map<UserAccountEntity, UserAccountModel>(x));
     }
 
-    public UserAccountModel GetAccountByUrl(string authorLogin, string serviceUrl)
+    public string GetAuthorLoginByAccountId(int accountId)
     {
-        UserEntity author = _dbContext.Users.FirstOrDefault(x => x.Login == authorLogin)
-                            ?? throw new Exception("no such authors with such login");
+        UserAccountEntity? account = _dbContext.UserAccounts
+            .Include(x => x.Author)
+            .FirstOrDefault(x => x.Id == accountId);
+        
+        if (account == null)
+        {
+            throw new Exception("no such account with that id");
+        }
 
-        IQueryable<UserAccountEntity> accountsEntities = _dbContext.UserAccounts.Where(x => x.AuthorId == author.Id);
-        UserAccountEntity account = accountsEntities.FirstOrDefault(x => x.ServiceUrl == serviceUrl)
-                                    ?? throw new Exception("that author does not have any services with that url");
+        return account.Author.Login;
+    }
 
-        return _mapper.Map<UserAccountEntity, UserAccountModel>(account);
+    public async Task UpdateAsync(int accountId, UserAccountModel model)
+    {
+        UserAccountEntity? account = _dbContext.UserAccounts.FirstOrDefault(x => x.Id == accountId);
+        if (account == null)
+        {
+            throw new Exception("no such account with that id");
+        }
+
+        account = MapUserEntity(account, model);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    // like mapping
+    private UserAccountEntity MapUserEntity(UserAccountEntity entity, UserAccountModel model)
+    {
+        entity.Password = model.Password;
+        entity.Login = model.Login;
+        entity.ServiceUrl = model.ServiceUrl;
+        entity.Description = model.Description;
+
+        return entity;
     }
 }

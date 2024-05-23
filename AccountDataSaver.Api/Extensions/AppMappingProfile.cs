@@ -20,5 +20,7 @@ public class AppMappingProfile : Profile
 
         CreateMap<LoginUserRequest, LoginUserRequestModel>().ReverseMap();
         CreateMap<RegisterUserRequest, RegisterUserRequestModel>().ReverseMap();
+
+        CreateMap<AccountContractRequest, UserAccountModel>().ReverseMap();
     }
 }

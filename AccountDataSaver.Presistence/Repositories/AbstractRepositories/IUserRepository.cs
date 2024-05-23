@@ -6,7 +6,7 @@ namespace AccountDataSaver.Presistence.Repositories.AbstractRepositories;
 public interface IUserRepository
 {
     Task AddAsync(UserModel user);
-    Task<UserModel>? GetByLoginAsync(string login);
+    UserModel GetByLogin(string login);
     bool ContainsByLogin(string login);
-
+    UserModel GetById(int id);
 }

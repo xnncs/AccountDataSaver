@@ -37,7 +37,7 @@ public class UserService : IUserService
 
     public async Task<string> LoginAsync(LoginUserRequestModel request)
     {
-        UserModel userModel = await _userRepository.GetByLoginAsync(request.Email)!
+        UserModel userModel = _userRepository.GetByLogin(request.Email)!
                               ?? throw new Exception("Failed to login, no users with such email");
 
         PasswordVerificationResult state = _passwordHasher.VerifyHashedPassword(

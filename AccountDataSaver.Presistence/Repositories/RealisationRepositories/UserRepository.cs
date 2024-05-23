@@ -35,10 +35,16 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public async Task<UserModel>? GetByLoginAsync(string login)
+    public UserModel GetByLogin(string login)
     {
-        UserEntity? userEntity = await _dbContext.Users.AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Login == login);
+        UserEntity? userEntity = _dbContext.Users.AsNoTracking()
+            .FirstOrDefault(x => x.Login == login);
+        return _mapper.Map<UserEntity, UserModel>(userEntity!);
+    }
+    public UserModel GetById(int id)
+    {
+        UserEntity? userEntity = _dbContext.Users.AsNoTracking()
+            .FirstOrDefault(x => x.Id == id);
         return _mapper.Map<UserEntity, UserModel>(userEntity!);
     }
 
