@@ -1,5 +1,7 @@
+using System.Runtime.CompilerServices;
 using AccountDataSaver.Core.Models;
 using AccountDataSaver.Presistence.Entities;
+using AccountDataSaver.Presistence.Extentions;
 using AccountDataSaver.Presistence.Repositories.AbstractRepositories;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -77,26 +79,26 @@ public class UserAccountRepository : IUserAccountRepository
         return account.Author.Login;
     }
 
-    public async Task UpdateAsync(int accountId, UserAccountModel model)
+    public async Task DeleteAsync(int accountId)
     {
-        UserAccountEntity? account = _dbContext.UserAccounts.FirstOrDefault(x => x.Id == accountId);
-        if (account == null)
+        int deletesCount = await _dbContext.UserAccounts.Where(x => x.Id == accountId).ExecuteDeleteAsync();
+        if (deletesCount == 0)
         {
             throw new Exception("no such account with that id");
         }
-
-        account = MapUserEntity(account, model);
         await _dbContext.SaveChangesAsync();
     }
 
-    // like mapping
-    private UserAccountEntity MapUserEntity(UserAccountEntity entity, UserAccountModel model)
+    public async Task UpdateAsync(int accountId, UserAccountModel model)
     {
-        entity.Password = model.Password;
-        entity.Login = model.Login;
-        entity.ServiceUrl = model.ServiceUrl;
-        entity.Description = model.Description;
-
-        return entity;
+        int updatesCount = await _dbContext.UserAccounts.Where(x => x.Id == accountId)
+            .ExecuteUpdateAsync(
+                setters => setters.UpdateProperties(model)
+                );
+        
+        if (updatesCount == 0)
+        {
+            throw new Exception("no such account with that id");
+        }
     }
 }

@@ -19,16 +19,19 @@ public class UserAccountService : IUserAccountService
     private readonly IUserRepository _userRepository;
 
 
-    public async Task UpdateByIdAsync(UpdateAccountRequestModel request)
+    
+    public async Task UpdateAsync(UpdateAccountRequestModel request)
     {
-        string authorLogin = _accountRepository.GetAuthorLoginByAccountId(request.AccountId);
-        if (authorLogin != request.RequestUserLogin)
-        {
-            throw new Exception(
-                "you have no permissions to change that account because you are not that account author");
-        }
+        CheckAuthorPermissions(request.AccountId, request.RequestUserLogin);
 
         await _accountRepository.UpdateAsync(request.AccountId, request.Data);
+    }
+
+    public async Task DeleteAsync(DeleteAccountRequestModel request)
+    {
+        CheckAuthorPermissions(request.AccountId, request.RequestUserLogin);
+
+        await _accountRepository.DeleteAsync(request.AccountId);
     }
     
     public async Task AddAsync(AddAccountRequestModel request)
@@ -58,9 +61,21 @@ public class UserAccountService : IUserAccountService
 
         await _accountRepository.AddAsync(account);
     }
-    
-    public async Task<IQueryable<UserAccountModel>> GetAllAsync(string authorLogin)
+
+    public IQueryable<UserAccountModel> GetAll(string authorLogin)
     {
         return _accountRepository.GetAllAccounts(authorLogin);
+    }
+
+
+    // throws exception if user has no author permissions
+    private void CheckAuthorPermissions(int requestAccountId, string clientLogin)
+    {
+        string authorLogin = _accountRepository.GetAuthorLoginByAccountId(requestAccountId);
+        if (authorLogin != clientLogin)
+        {
+            throw new Exception(
+                "you have no permissions to change that account because you are not that account author");
+        }
     }
 }
