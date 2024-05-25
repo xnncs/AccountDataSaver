@@ -17,8 +17,7 @@ public class UserAccountService : IUserAccountService
     
     private readonly IUserAccountRepository _accountRepository;
     private readonly IUserRepository _userRepository;
-
-
+    
     
     public async Task UpdateAsync(UpdateAccountRequestModel request)
     {
@@ -62,9 +61,26 @@ public class UserAccountService : IUserAccountService
         await _accountRepository.AddAsync(account);
     }
 
-    public IQueryable<UserAccountModel> GetAll(string authorLogin)
+    public IEnumerable<UserAccountModel> GetAll(string authorLogin)
     {
-        return _accountRepository.GetAllAccounts(authorLogin);
+        IQueryable<UserAccountModel>? accounts = _accountRepository.GetAllAccounts(authorLogin);
+        if (accounts == null)
+        {
+            return Enumerable.Empty<UserAccountModel>();
+        }
+        
+        return accounts.AsEnumerable();
+    }
+
+    public IEnumerable<UserAccountModel> GetByUrl(string authorLogin, string url)
+    {
+        IQueryable<UserAccountModel>? accounts = _accountRepository.GetAllAccounts(authorLogin);
+        if (accounts == null)
+        {
+            return Enumerable.Empty<UserAccountModel>();
+        }
+
+        return accounts.Where(x => x.ServiceUrl == url).AsEnumerable();
     }
 
 

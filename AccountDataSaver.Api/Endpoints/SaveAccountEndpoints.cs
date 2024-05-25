@@ -1,4 +1,6 @@
 using AccountDataSaver.Api.Contracts;
+using AccountDataSaver.Api.Models;
+using AccountDataSaver.Api.Validation;
 using AccountDataSaver.Application.Models;
 using AccountDataSaver.Application.Services.AbstractServices;
 using AccountDataSaver.Application.Services.RealisationServices;
@@ -36,15 +38,21 @@ public static class SaveAccountEndpoints
 
         return endpoints;
     }
-
-    public static async Task<IResult> DeleteById(int accountId, HttpContext context, IUserService userService, 
+    
+    public static async Task<IResult> DeleteById(int accountId, HttpContext context, IAuthorizationService authorizationService, 
         IJwtProvider jwtProvider, ILogger<UserAccountService> logger, IUserAccountService accountService)
     {
-        string userLogin = userService.GetLoginFromJwt(context, jwtProvider);
+        // validation
+        ValidationResultsValues validationResults = IsIdValid(accountId);
+        if (!validationResults.IsValid)
+        {
+            return TypedResults.BadRequest(validationResults.GetModelValidationMistakes());
+        }
+        
+        string userLogin = authorizationService.GetLoginFromJwt(context, jwtProvider);
 
         DeleteAccountRequestModel contract = DeleteAccountRequestModel.Create(
             accountId, userLogin);
-
         
         try
         {
@@ -53,22 +61,28 @@ public static class SaveAccountEndpoints
         }
         catch (Exception exception)
         {
-            return await HandleException(exception, userLogin, logger);
+            return HandleException(exception, userLogin, logger);
         }
     }
 
     public static async Task<IResult> UpdateById([FromBody] UpdateAccountRequest request,
-        IMapper mapper, HttpContext context, IUserService userService, IJwtProvider jwtProvider, 
+        IMapper mapper, HttpContext context, IAuthorizationService authorizationService, IJwtProvider jwtProvider, 
         ILogger<UserAccountService> logger, IUserAccountService accountService)
     {
-        string userLogin = userService.GetLoginFromJwt(context, jwtProvider);
+        // validation
+        ValidationResultsValues validationResults = request.IsValid();
+        if (!validationResults.IsValid)
+        {
+            return TypedResults.BadRequest(validationResults.GetModelValidationMistakes());
+        }
+        
+        string userLogin = authorizationService.GetLoginFromJwt(context, jwtProvider);
 
         UpdateAccountRequestModel contract = UpdateAccountRequestModel.Create(
             request.AccountId,
             mapper.Map<AccountContractRequest, UserAccountModel>(request.Data),
             userLogin);
-
-
+        
         try
         {
             await accountService.UpdateAsync(contract);
@@ -76,55 +90,69 @@ public static class SaveAccountEndpoints
         }
         catch (Exception exception)
         {
-            return await HandleException(exception, userLogin, logger);
+            return HandleException(exception, userLogin, logger);
         }
     }
     
     public static async Task<IResult> GetAllAccounts(IUserAccountService accountService,
         IMapper mapper, HttpContext context, IJwtProvider jwtProvider, ILogger<UserAccountService> logger,
-        IUserService userService)
+        IAuthorizationService authorizationService)
     {
-        string userLogin = userService.GetLoginFromJwt(context, jwtProvider);
+        string userLogin = authorizationService.GetLoginFromJwt(context, jwtProvider);
         
         try
         {
             IEnumerable<UserAccountModel> accounts = accountService.GetAll(userLogin);
-            // if collection is null, returns empty collection
-            return TypedResults.Ok(accounts != null! ? accounts : Enumerable.Empty<UserAccountModel>());
+            return TypedResults.Ok(accounts);
         }
         catch (Exception exception)
         {
-            return await HandleException(exception, userLogin, logger);
+            return HandleException(exception, userLogin, logger);
         }
     }
     
     public static async Task<IResult> GetAccountsByUrl([FromQuery] string accountUrl, 
         IUserAccountService accountService, IMapper mapper, HttpContext context, 
-        IJwtProvider jwtProvider, ILogger<UserAccountService> logger, IUserService userService)
+        IJwtProvider jwtProvider, ILogger<UserAccountService> logger, IAuthorizationService authorizationService)
     {
-        string userLogin = userService.GetLoginFromJwt(context, jwtProvider);
+        // validation
+        ValidationResultsValues validationResults = IsServiceUrlStringValid(accountUrl);
+        if (!validationResults.IsValid)
+        {
+            // returns all mistakes in model
+            return TypedResults.BadRequest(validationResults.GetModelValidationMistakes());
+        }
+
+        
+        string userLogin = authorizationService.GetLoginFromJwt(context, jwtProvider);
 
         try
         {
-            IEnumerable<UserAccountModel> accounts = accountService.GetAll(userLogin).AsEnumerable()
-                .Where(x => x.ServiceUrl == accountUrl);
-            // if collection is null, returns empty collection
-            return TypedResults.Ok(accounts != null! ? accounts : Enumerable.Empty<UserAccountModel>());
+            IEnumerable<UserAccountModel> accounts = accountService.GetByUrl(userLogin, accountUrl);
+            return TypedResults.Ok(accounts);
         }
         catch (Exception exception)
         {
-            return await HandleException(exception, userLogin, logger);
+            return HandleException(exception, userLogin, logger);
         }
     }
 
     public static async Task<IResult> AddAccount([FromBody] AddAccountRequest request, 
         IUserAccountService accountService, IMapper mapper, IPasswordHelper passwordHelper, 
-        HttpContext context, IJwtProvider jwtProvider, IUserService userService, 
+        HttpContext context, IJwtProvider jwtProvider, IAuthorizationService authorizationService, 
         ILogger<UserAccountService> logger)
     {
+        // validation
+        ValidationResultsValues validationResults = request.IsValid();
+        if (!validationResults.IsValid)
+        {
+            // returns all mistakes in model
+            return TypedResults.BadRequest(validationResults.GetModelValidationMistakes());
+        }
+        
         AddAccountRequestModel contract = mapper.Map<AddAccountRequest, AddAccountRequestModel>(request);
 
-        string userLogin = userService.GetLoginFromJwt(context, jwtProvider);
+        string userLogin = authorizationService.GetLoginFromJwt(context, jwtProvider);
         
         contract.Password = GetPassword(request, passwordHelper);
         contract.AuthorLogin = userLogin;
@@ -136,12 +164,11 @@ public static class SaveAccountEndpoints
         }
         catch (Exception exception)
         {
-            return await HandleException(exception, userLogin, logger);
+            return HandleException(exception, userLogin, logger);
         }
-
     }
 
-    private static async Task<IResult> HandleException(Exception exception, string userData,
+    private static IResult HandleException(Exception exception, string userData,
         ILogger<UserAccountService> logger)
     {
         logger.LogError($"user with login {userData} had exception {exception.Message}");
@@ -152,9 +179,33 @@ public static class SaveAccountEndpoints
     private static string GetPassword(AddAccountRequest request, IPasswordHelper passwordHelper)
     {
         GenerateRandomPasswordOptions randomPasswordOptions = request.GenerateRandomPasswordOptions;
-        
+
         return randomPasswordOptions.ToGenerateRandomPassword
             ? passwordHelper.GenerateRandomPassword(randomPasswordOptions)
             : request.Password;
+    }
+
+
+    private static ValidationResultsValues IsIdValid(int id)
+    {
+        bool isValid = id.ToString().Length < 1_000_000_000 && id > 0;
+        if (isValid)
+        {
+            return new ValidationResultsValues(true, null);
+        }
+
+        string errorMessage = "Id must be more then 0 and less then 1 000 000 000";
+        return ValidationResultsValues.Create(false, errorMessage);
+    }
+    private static ValidationResultsValues IsServiceUrlStringValid(string url)
+    {
+        bool isValid = url.Length is > 4 and < 20;
+        if (isValid)
+        {
+            return new ValidationResultsValues(true, null);
+        }
+
+        string errorMessage = "Url length must be more then 4 and less then 20";
+        return ValidationResultsValues.Create(false, errorMessage);
     }
 }

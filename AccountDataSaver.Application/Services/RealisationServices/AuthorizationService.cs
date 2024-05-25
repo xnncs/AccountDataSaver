@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AccountDataSaver.Application.Services.RealisationServices;
 
-public class UserService : IUserService
+public class AuthorizationService : IAuthorizationService
 {
-    public UserService(IPasswordHasher passwordHasher, IUserRepository userRepository, IJwtProvider jwtProvider)
+    public AuthorizationService(IPasswordHasher passwordHasher, IUserRepository userRepository, IJwtProvider jwtProvider)
     {
         _jwtProvider = jwtProvider;
         _passwordHasher = passwordHasher;

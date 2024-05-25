@@ -1,16 +1,13 @@
 using System.ComponentModel.DataAnnotations;
-using AccountDataSaver.Api.Models;
 using AccountDataSaver.Api.Validation;
-using AccountDataSaver.Application.Contracts;
-using AccountDataSaver.Infrastructure.Models;
 
-namespace AccountDataSaver.Api.Contracts;
+namespace AccountDataSaver.Api.Models;
 
-public record AddAccountRequest : IValidatedModel
+public record AccountContractRequest : IValidatedModel
 {
     [Required]
     [Length(4, 20)]
-    public string ServiceUrl { get; set; } 
+    public string ServiceUrl { get; set; }
     
     [Required(AllowEmptyStrings = true)]
     [MaxLength(50)]
@@ -20,12 +17,10 @@ public record AddAccountRequest : IValidatedModel
     [Length(6, 15)]
     public string Login { get; set; }
     
-    public GenerateRandomPasswordOptions GenerateRandomPasswordOptions { get; set; }
-    
-    [MaxLength(30)]
+    [Required]
+    [Length(6, 30)]
     public string Password { get; set; }
-    
-    
+
     public ValidationResultsValues IsValid()
     {
         ValidationContext context = new ValidationContext(this);

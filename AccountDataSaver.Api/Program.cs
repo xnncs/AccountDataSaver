@@ -38,7 +38,7 @@ services.AddSingleton<IJwtProvider, JwtProvider>();
 services.AddSingleton<IPasswordHelper, PasswordHelper>();
 
 // adding business logic services 
-services.AddScoped<IUserService, UserService>();
+services.AddScoped<IAuthorizationService, AuthorizationService>();
 services.AddScoped<IUserAccountService, UserAccountService>();
 
 // adding dto repositories

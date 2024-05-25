@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AccountDataSaver.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+122b2c26dfc83596138e5509e16f5102e68acfec")]
 [assembly: System.Reflection.AssemblyProductAttribute("AccountDataSaver.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AccountDataSaver.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

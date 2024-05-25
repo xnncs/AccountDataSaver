@@ -54,7 +54,7 @@ public class UserAccountRepository : IUserAccountRepository
                 x.ServiceUrl == serviceUrl);
     }
 
-    public IQueryable<UserAccountModel> GetAllAccounts(string authorLogin)
+    public IQueryable<UserAccountModel>? GetAllAccounts(string authorLogin)
     {
         UserEntity author = _dbContext.Users.FirstOrDefault(x => x.Login == authorLogin)
                             ?? throw new Exception("no authors with such login");

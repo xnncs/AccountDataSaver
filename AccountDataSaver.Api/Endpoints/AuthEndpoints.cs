@@ -1,4 +1,6 @@
 using AccountDataSaver.Api.Contracts;
+using AccountDataSaver.Api.Models;
+using AccountDataSaver.Api.Validation;
 using AccountDataSaver.Application.Contracts;
 using AccountDataSaver.Application.Services.AbstractServices;
 using AutoMapper;
@@ -21,12 +23,18 @@ public static class AuthEndpoints
         return endpoints;
     }
 
-    public static async Task<IResult> RegisterAsync(RegisterUserRequest request, IUserService userService, IMapper mapper)
+    public static async Task<IResult> RegisterAsync(RegisterUserRequest request, IAuthorizationService authorizationService, IMapper mapper)
     {
+        ValidationResultsValues validationResults = request.IsValid();
+        if (!validationResults.IsValid)
+        {
+            return TypedResults.BadRequest(validationResults.GetModelValidationMistakes());
+        }
+        
         RegisterUserRequestModel contract = mapper.Map<RegisterUserRequest, RegisterUserRequestModel>(request);
         try
         {
-            await userService.RegisterAsync(contract);
+            await authorizationService.RegisterAsync(contract);
         }
         catch (Exception exception)
         {
@@ -36,11 +44,17 @@ public static class AuthEndpoints
         return TypedResults.Ok();
     }
 
-    public static async Task<IResult> LoginAsync(LoginUserRequest request, IUserService userService, HttpContext context, IMapper mapper)
+    public static async Task<IResult> LoginAsync(LoginUserRequest request, IAuthorizationService authorizationService, HttpContext context, IMapper mapper)
     {
+        ValidationResultsValues validationResults = request.IsValid();
+        if (!validationResults.IsValid)
+        {
+            return TypedResults.BadRequest(validationResults.GetModelValidationMistakes());
+        }
+        
         LoginUserRequestModel contract = mapper.Map<LoginUserRequest, LoginUserRequestModel>(request);
         
-        string token = await userService.LoginAsync(contract);
+        string token = await authorizationService.LoginAsync(contract);
         context.Response.Cookies.Append("tasty-cookies", token);
         
         return TypedResults.Ok();

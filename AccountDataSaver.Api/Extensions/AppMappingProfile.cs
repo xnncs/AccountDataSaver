@@ -1,4 +1,5 @@
 using AccountDataSaver.Api.Contracts;
+using AccountDataSaver.Api.Models;
 using AccountDataSaver.Application.Contracts;
 using AccountDataSaver.Application.Models;
 using AccountDataSaver.Core.Models;
@@ -14,8 +15,6 @@ public class AppMappingProfile : Profile
         CreateMap<UserEntity, UserModel>().ReverseMap();
         CreateMap<UserAccountEntity, UserAccountModel>().ReverseMap();
 
-        CreateMap<AddAccountRequest, AddAccountRequestModel>().ReverseMap();
-        CreateMap<GetAccountRequest, GetAccountRequestModel>().ReverseMap();
         CreateMap<AddAccountRequest, AddAccountRequestModel>().ReverseMap();
 
         CreateMap<LoginUserRequest, LoginUserRequestModel>().ReverseMap();
