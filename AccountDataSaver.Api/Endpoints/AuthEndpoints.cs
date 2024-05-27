@@ -1,5 +1,4 @@
 using AccountDataSaver.Api.Contracts;
-using AccountDataSaver.Api.Models;
 using AccountDataSaver.Api.Validation;
 using AccountDataSaver.Application.Contracts;
 using AccountDataSaver.Application.Services.AbstractServices;

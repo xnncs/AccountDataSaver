@@ -22,7 +22,7 @@ public record RegisterUserRequest : IValidatedModel
     public ValidationResultsValues IsValid()
     {
         ValidationContext context = new ValidationContext(this);
-        List<ValidationResult?> results = new List<ValidationResult>();
+        List<ValidationResult> results = new List<ValidationResult>();
         
         bool isEmailValid = IsEmailValid(Email);
         if (!isEmailValid)
@@ -30,7 +30,7 @@ public record RegisterUserRequest : IValidatedModel
             results.Add(new ValidationResult("Email is not valid"));
         }
 
-        bool isValid = Validator.TryValidateObject(this, context, results, true) || isEmailValid;
+        bool isValid = Validator.TryValidateObject(this, context, results, true) && isEmailValid;
         
         return new ValidationResultsValues(isValid, results);
     }

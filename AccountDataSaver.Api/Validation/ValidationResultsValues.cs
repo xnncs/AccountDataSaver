@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AccountDataSaver.Api.Validation;
 
-public record ValidationResultsValues(bool IsValid, List<ValidationResult>? Results)
+public record ValidationResultsValues(bool IsValid, List<ValidationResult?> Results)
 {
     public static ValidationResultsValues Create(bool isValid, string errorMessage)
     {

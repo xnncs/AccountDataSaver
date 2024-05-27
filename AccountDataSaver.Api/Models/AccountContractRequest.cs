@@ -24,7 +24,7 @@ public record AccountContractRequest : IValidatedModel
     public ValidationResultsValues IsValid()
     {
         ValidationContext context = new ValidationContext(this);
-        List<ValidationResult?> results = new List<ValidationResult>();
+        List<ValidationResult>? results = new List<ValidationResult>();
 
         bool isValid = Validator.TryValidateObject(this, context, results, true);
         

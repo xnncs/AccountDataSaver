@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AccountDataSaver.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+122b2c26dfc83596138e5509e16f5102e68acfec")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebb6af9bf7401b723d7fee5613b927d257b6166b")]
 [assembly: System.Reflection.AssemblyProductAttribute("AccountDataSaver.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AccountDataSaver.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
